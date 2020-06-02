@@ -43,6 +43,9 @@ public class Car {
     public void setName(String name) {
         this.name = name;
     }
+    public User getOwner(){
+        return owner;
+    }
 
     public int getSeries() {
         return series;
