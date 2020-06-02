@@ -19,20 +19,10 @@ public class UserDaoImp implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByCarNumberAndSeries(long number, int series) {
-        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where car_id = :number")
+        TypedQuery<Car> query = sessionFactory.getCurrentSession().createQuery("from Car where id = :number and series = :series")
                 .setParameter("number", number)
-                .list();
-        User user;
-        try {
-            user = list.get(0);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
-        if (user.getCar().getSeries() == series) {
-            return list.get(0);
-        } else return null;
-
-    }
+                .setParameter("series", series);
+        return query.getSingleResult().getOwner();
 
     @Override
     public void add(User user) {
